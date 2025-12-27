@@ -64,12 +64,23 @@ class PasswordGenerator:
         # Generate password ensuring at least one character from each selected category
         password = []
         
+        # Prepare character pools with ambiguous filtering
+        lower_pool = self.lowercase
+        if exclude_ambiguous:
+            lower_pool = ''.join(c for c in lower_pool if c not in "il1Lo0O")
+        
         # Add at least one character from each category
-        password.append(secrets.choice(self.lowercase))
+        password.append(secrets.choice(lower_pool))
         if use_uppercase:
-            password.append(secrets.choice(self.uppercase))
+            upper_pool = self.uppercase
+            if exclude_ambiguous:
+                upper_pool = ''.join(c for c in upper_pool if c not in "IO")
+            password.append(secrets.choice(upper_pool))
         if use_digits:
-            password.append(secrets.choice(self.digits))
+            digit_pool = self.digits
+            if exclude_ambiguous:
+                digit_pool = ''.join(c for c in digit_pool if c not in "01")
+            password.append(secrets.choice(digit_pool))
         if use_special:
             password.append(secrets.choice(self.special))
         
@@ -77,8 +88,10 @@ class PasswordGenerator:
         remaining_length = length - len(password)
         password.extend(secrets.choice(chars) for _ in range(remaining_length))
         
-        # Shuffle to avoid predictable patterns
-        random.shuffle(password)
+        # Shuffle securely to avoid predictable patterns
+        # Use secrets.SystemRandom for cryptographically secure shuffle
+        rng = random.SystemRandom()
+        rng.shuffle(password)
         
         return ''.join(password)
     

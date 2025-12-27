@@ -33,8 +33,10 @@ class TodoList:
     
     def add_task(self, description, priority="medium"):
         """Add a new task to the list."""
+        # Generate unique ID by finding max ID and adding 1
+        max_id = max([task["id"] for task in self.tasks], default=0)
         task = {
-            "id": len(self.tasks) + 1,
+            "id": max_id + 1,
             "description": description,
             "priority": priority,
             "completed": False,
