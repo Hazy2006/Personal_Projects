@@ -1,0 +1,13 @@
+# Requirements for Personal Projects Portfolio
+
+# All projects use Python standard library only
+# Python 3.6+ required
+
+# Optional: For development and testing
+# pytest>=7.0.0  # For unit testing
+# black>=22.0.0  # For code formatting
+# flake8>=4.0.0  # For linting
+
+# Note: The Weather CLI application requires internet access
+# and an API key from https://openweathermap.org/api
+# No pip packages are required for the basic functionality.
